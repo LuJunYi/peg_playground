@@ -6,12 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1175</width>
-    <height>1005</height>
+    <width>1483</width>
+    <height>993</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Microsoft YaHei</family>
+    <pointsize>14</pointsize>
+    <weight>50</weight>
+    <bold>false</bold>
+    <kerning>false</kerning>
+   </font>
+  </property>
   <property name="windowTitle">
-   <string>Main Window</string>
+   <string>PEG_Playground</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -27,7 +36,7 @@
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>20</height>
+            <height>35</height>
            </size>
           </property>
           <property name="maximumSize">
@@ -42,7 +51,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QTextEdit" name="grammarTextEdit">
+         <widget class="QTextEdit" name="grammarEditTextEdit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -52,7 +61,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QTextEdit" name="grammarTextEditLower">
+         <widget class="QTextEdit" name="grammarInfoTextEdit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -65,6 +74,9 @@
             <height>200</height>
            </size>
           </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
        </layout>
@@ -74,7 +86,7 @@
         <item>
          <layout class="QHBoxLayout" name="toolbarLayout">
           <item>
-           <widget class="QLabel" name="label">
+           <widget class="QLabel" name="srcLabel">
             <property name="text">
              <string>Source Code</string>
             </property>
@@ -104,14 +116,20 @@
            <widget class="QLineEdit" name="startRuleLineEdit">
             <property name="maximumSize">
              <size>
-              <width>100</width>
+              <width>16777215</width>
               <height>16777215</height>
              </size>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QCheckBox" name="packratCheckBox">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Packrat</string>
             </property>
@@ -124,10 +142,17 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QPushButton" name="parsePushButton">
+            <property name="text">
+             <string>Parse</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
         <item>
-         <widget class="QTextEdit" name="sourceCodeTextEdit">
+         <widget class="QTextEdit" name="codeEditorTextEdit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -144,12 +169,15 @@
          </widget>
         </item>
         <item>
-         <widget class="QTextEdit" name="sourceCodeTextEditLower">
+         <widget class="QTextEdit" name="codeAstTextEdit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -157,6 +185,9 @@
          <layout class="QVBoxLayout" name="optionsLayout">
           <item>
            <widget class="QCheckBox" name="optimizedASTCheckBox">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Optimized AST</string>
             </property>
@@ -164,6 +195,9 @@
           </item>
           <item>
            <widget class="QCheckBox" name="profileCheckBox">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Profile</string>
             </property>
@@ -172,12 +206,15 @@
          </layout>
         </item>
         <item>
-         <widget class="QTextEdit" name="textEdit">
+         <widget class="QTextEdit" name="codeResultTextEdit">
           <property name="maximumSize">
            <size>
             <width>16777215</width>
             <height>200</height>
            </size>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
           </property>
          </widget>
         </item>

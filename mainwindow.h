@@ -4,7 +4,10 @@
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui
+{
+    class MainWindow;
+}
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -14,6 +17,10 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+private slots:
+    void onGrammarTextChanged(); // 处理 grammarEditTextEdit 的文本更改
+    void onParseButtonClicked(); // 处理 parsePushButton 的点击
 
 private:
     Ui::MainWindow *ui;
