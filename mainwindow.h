@@ -1,21 +1,26 @@
-#ifndef MAINWINDOW_H
+﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
 
+#include <memory>
+
+#include "peglib.h"
+
 QT_BEGIN_NAMESPACE
-namespace Ui
-{
+
+namespace Ui {
     class MainWindow;
 }
+
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
     MainWindow(QWidget *parent = nullptr);
+
     ~MainWindow();
 
 private slots:
@@ -23,6 +28,11 @@ private slots:
     void onParseButtonClicked(); // 处理 parsePushButton 的点击
 
 private:
+    void parseCode();
+
+private:
     Ui::MainWindow *ui;
+
+    std::shared_ptr<peg::parser> _pegParser;
 };
 #endif // MAINWINDOW_H
