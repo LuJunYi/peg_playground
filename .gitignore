@@ -71,3 +71,9 @@ Thumbs.db
 *.dll
 *.exe
 
+# temp dir
+build
+.idea
+.vscode
+.vs
+
