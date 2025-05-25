@@ -82,7 +82,11 @@ void MainWindow::parseCode()
         std::shared_ptr<peg::Ast> ast;
         if (_pegParser->parse(codeLine, ast))
         {
-            auto dd = ast->nodes.size();
+            // auto dd = ast->nodes.size();
+
+            QString astStr = QString::fromStdString(peg::ast_to_s(ast));
+            ui->codeAstPlainTextEdit->setPlainText(astStr);
+
             qDebug() << "Parsing Ok.";
         }
         else
