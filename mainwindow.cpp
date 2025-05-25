@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 
 #include <QDebug>
+#include <QString>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -38,12 +39,13 @@ void MainWindow::onParseButtonClicked()
 
 void MainWindow::parseCode()
 {
-    peg::parser parser(R"(
+    /*auto grammer = R"(
         START <-  ~HELLO WORLD
         HELLO <- 'Hello' _
         WORLD <- 'World' _
         _     <- [ \t\r\n]*
-     )");
+     )";
+    peg::parser parser(grammer);
 
     parser.enable_ast();
 
@@ -56,26 +58,23 @@ void MainWindow::parseCode()
     else
     {
         qDebug() << "Parsing failed.";
-    }
-    // QString peg_grammar = ui->grammarEditTextEdit->toPlainText();
+    }*/
 
-    // _pegParser->load_grammar(R"(
-    //    START <-  ~HELLO WORLD
-    //    HELLO <- 'Hello' _
-    //    WORLD <- 'World' _
-    //    _     <- [ \t\r\n]*
-    // )");
+    QString peg_grammar = ui->grammarEditTextEdit->toPlainText();
+    qDebug() << peg_grammar;
+
+    _pegParser->load_grammar(peg_grammar.toLocal8Bit().data());
     // _pegParser->enable_packrat_parsing();
-    // _pegParser->enable_ast();
+    _pegParser->enable_ast();
 
-    // std::shared_ptr<peg::Ast> ast;
-    // if (_pegParser->parse("Hello World.", ast))
-    // {
-    //     auto dd = ast->nodes.size();
-    //     qDebug() << "Parsing Ok.";
-    // }
-    // else
-    // {
-    //     qDebug() << "Parsing failed.";
-    // }
+    std::shared_ptr<peg::Ast> ast;
+    if (_pegParser->parse("Hello World", ast))
+    {
+        auto dd = ast->nodes.size();
+        qDebug() << "Parsing Ok.";
+    }
+    else
+    {
+        qDebug() << "Parsing failed.";
+    }
 }
