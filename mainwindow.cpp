@@ -28,6 +28,15 @@ void MainWindow::onGrammarTextChanged()
 {
     QString peg_grammar = ui->grammarPlainTextEdit->toPlainText();
     // qDebug() << peg_grammar;
+    ui->grammarInfoPlainTextEdit->clear();
+
+    _pegParser->set_logger([&](size_t ln, size_t col, const std::string &msg)
+                           { 
+                                QString logMessage = QString("Line %1, Column %2: %3")
+                                            .arg(ln + 1)
+                                            .arg(col + 1)
+                                            .arg(QString::fromStdString(msg));
+                                ui->grammarInfoPlainTextEdit->appendPlainText(logMessage); });
 
     if (_pegParser->load_grammar(peg_grammar.toLocal8Bit().data()))
     {
@@ -43,6 +52,7 @@ void MainWindow::onGrammarTextChanged()
     else
     {
         _grammarValid = false;
+
         qDebug() << "Grammar is invalid.";
     }
 }
@@ -72,6 +82,14 @@ void MainWindow::parseCode()
 {
     QString codeText = ui->codeEditorPlainTextEdit->toPlainText();
     QStringList codeLines = codeText.split('\n');
+
+    _pegParser->set_logger([&](size_t ln, size_t col, const std::string &msg)
+                           { 
+         QString logMessage = QString("Line %1, Column %2: %3")
+                     .arg(ln + 1)
+                     .arg(col + 1)
+                     .arg(QString::fromStdString(msg));
+         ui->codeResultPlainTextEdit->appendPlainText(logMessage); });
 
     for (const QString &line : codeLines)
     {
