@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     _pegParser.reset(new peg::parser());
 
     // 动态连接 grammarEditTextEdit 的 textChanged 信号
-    connect(ui->grammarEditTextEdit, &QTextEdit::textChanged, this, &MainWindow::onGrammarTextChanged);
+    connect(ui->grammarPlainTextEdit, &QPlainTextEdit::textChanged, this, &MainWindow::onGrammarTextChanged);
     // 动态连接 parsePushButton 的 clicked 信号
     connect(ui->parsePushButton, &QPushButton::clicked, this, &MainWindow::onParseButtonClicked);
 }
@@ -60,7 +60,7 @@ void MainWindow::parseCode()
         qDebug() << "Parsing failed.";
     }*/
 
-    QString peg_grammar = ui->grammarEditTextEdit->toPlainText();
+    QString peg_grammar = ui->grammarPlainTextEdit->toPlainText();
     qDebug() << peg_grammar;
 
     _pegParser->load_grammar(peg_grammar.toLocal8Bit().data());

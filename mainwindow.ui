@@ -51,7 +51,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QTextEdit" name="grammarEditTextEdit">
+         <widget class="QPlainTextEdit" name="grammarPlainTextEdit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -61,7 +61,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QTextEdit" name="grammarInfoTextEdit">
+         <widget class="QPlainTextEdit" name="grammarInfoPlainTextEdit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -152,7 +152,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QTextEdit" name="codeEditorTextEdit">
+         <widget class="QPlainTextEdit" name="codeEditorPlainTextEdit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -169,7 +169,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QTextEdit" name="codeAstTextEdit">
+         <widget class="QPlainTextEdit" name="codeAstPlainTextEdit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -206,7 +206,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QTextEdit" name="codeResultTextEdit">
+         <widget class="QPlainTextEdit" name="codeResultPlainTextEdit">
           <property name="maximumSize">
            <size>
             <width>16777215</width>
