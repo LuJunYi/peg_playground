@@ -36,7 +36,7 @@
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>35</height>
+            <height>32</height>
            </size>
           </property>
           <property name="maximumSize">
@@ -58,6 +58,12 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="font">
+           <font>
+            <family>Consolas</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
          </widget>
         </item>
         <item>
@@ -73,6 +79,12 @@
             <width>16777215</width>
             <height>200</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Consolas</family>
+            <pointsize>12</pointsize>
+           </font>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -128,7 +140,7 @@
           <item>
            <widget class="QCheckBox" name="packratCheckBox">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="text">
              <string>Packrat</string>
@@ -159,10 +171,22 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="font">
+           <font>
+            <family>Consolas</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
          </widget>
         </item>
         <item>
          <widget class="QCheckBox" name="astButton">
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>AST</string>
           </property>
@@ -175,6 +199,12 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Consolas</family>
+            <pointsize>12</pointsize>
+           </font>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -212,6 +242,12 @@
             <width>16777215</width>
             <height>200</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Consolas</family>
+            <pointsize>12</pointsize>
+           </font>
           </property>
           <property name="readOnly">
            <bool>true</bool>

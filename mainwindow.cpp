@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->grammarPlainTextEdit, &QPlainTextEdit::textChanged, this, &MainWindow::onGrammarTextChanged);
     // 动态连接 parsePushButton 的 clicked 信号
     connect(ui->parsePushButton, &QPushButton::clicked, this, &MainWindow::onParseButtonClicked);
+
+    connect(ui->codeEditorPlainTextEdit, &QPlainTextEdit::textChanged, this, &MainWindow::onGrammarTextChanged);
 }
 
 MainWindow::~MainWindow()
@@ -24,57 +26,68 @@ MainWindow::~MainWindow()
 
 void MainWindow::onGrammarTextChanged()
 {
+    QString peg_grammar = ui->grammarPlainTextEdit->toPlainText();
+    // qDebug() << peg_grammar;
+
+    if (_pegParser->load_grammar(peg_grammar.toLocal8Bit().data()))
+    {
+        if (ui->packratCheckBox->isChecked())
+        {
+            _pegParser->enable_packrat_parsing();
+        }
+        _pegParser->enable_ast();
+
+        _grammarValid = true;
+        parseCode();
+    }
+    else
+    {
+        _grammarValid = false;
+        qDebug() << "Grammar is invalid.";
+    }
+}
+
+void MainWindow::onParseButtonClicked()
+{
+    if (_grammarValid)
+    {
+        parseCode();
+    }
+}
+
+void MainWindow::onCodeEditorTextChanged()
+{
     if (!ui->autoRefreshCheckBox->isChecked())
     {
         return; // 如果未选中自动刷新，则不处理
     }
 
-    parseCode();
-}
-
-void MainWindow::onParseButtonClicked()
-{
-    parseCode();
+    if (_grammarValid)
+    {
+        parseCode();
+    }
 }
 
 void MainWindow::parseCode()
 {
-    /*auto grammer = R"(
-        START <-  ~HELLO WORLD
-        HELLO <- 'Hello' _
-        WORLD <- 'World' _
-        _     <- [ \t\r\n]*
-     )";
-    peg::parser parser(grammer);
+    QString codeText = ui->codeEditorPlainTextEdit->toPlainText();
+    QStringList codeLines = codeText.split('\n');
 
-    parser.enable_ast();
-
-    std::shared_ptr<peg::Ast> ast;
-    auto ret = parser.parse("Hello World", ast);
-    if (ret)
+    for (const QString &line : codeLines)
     {
-        qDebug() << "Parsing Ok.";
-    }
-    else
-    {
-        qDebug() << "Parsing failed.";
-    }*/
+        qDebug() << line; // 输出每一行代码
 
-    QString peg_grammar = ui->grammarPlainTextEdit->toPlainText();
-    qDebug() << peg_grammar;
-
-    _pegParser->load_grammar(peg_grammar.toLocal8Bit().data());
-    // _pegParser->enable_packrat_parsing();
-    _pegParser->enable_ast();
-
-    std::shared_ptr<peg::Ast> ast;
-    if (_pegParser->parse("Hello World", ast))
-    {
-        auto dd = ast->nodes.size();
-        qDebug() << "Parsing Ok.";
-    }
-    else
-    {
-        qDebug() << "Parsing failed.";
+        // 这里可以添加对每一行代码的处理逻
+        std::string codeLine = line.toStdString();
+        std::shared_ptr<peg::Ast> ast;
+        if (_pegParser->parse(codeLine, ast))
+        {
+            auto dd = ast->nodes.size();
+            qDebug() << "Parsing Ok.";
+        }
+        else
+        {
+            qDebug() << "Parsing failed.";
+        }
     }
 }
