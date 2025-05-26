@@ -52,8 +52,8 @@ void MainWindow::onGrammarTextChanged()
     _pegParser->set_logger([&](size_t ln, size_t col, const std::string &msg)
                            {
         QString logMessage = QString("Line %1, Column %2: %3")
-                             .arg(ln + 1)
-                             .arg(col + 1)
+                             .arg(ln)
+                             .arg(col)
                              .arg(QString::fromStdString(msg));
         ui->grammarInfoPlainTextEdit->appendPlainText(logMessage); });
 
@@ -105,8 +105,8 @@ void MainWindow::parseCode()
     _pegParser->set_logger([&](size_t ln, size_t col, const std::string &msg)
                            {
         QString logMessage = QString("Line %1, Column %2: %3")
-                             .arg(ln + 1)
-                             .arg(col + 1)
+                             .arg(ln )
+                             .arg(col)
                              .arg(QString::fromStdString(msg));
         ui->codeResultPlainTextEdit->appendPlainText(logMessage); });
 
