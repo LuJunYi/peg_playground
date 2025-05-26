@@ -4,10 +4,29 @@
 #include <QDebug>
 #include <QString>
 
-MainWindow::MainWindow(QWidget* parent)
+#include "codeeditor.h"
+
+MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    QWidget *placeholder = ui->grammarPlainTextEdit;
+    QLayout *layout = placeholder->parentWidget()->layout();
+
+    CodeEditor *editor = new CodeEditor(this);
+    editor->setPlainText(ui->grammarPlainTextEdit->toPlainText());
+    editor->setObjectName("grammarPlainTextEdit");
+
+    int index = layout->indexOf(placeholder);
+    layout->removeWidget(placeholder);
+    placeholder->deleteLater();
+
+    QVBoxLayout *boxLayout = qobject_cast<QVBoxLayout *>(layout);
+    boxLayout->insertWidget(index, editor);
+    // layout->insertWidget(index, editor);
+    ui->grammarPlainTextEdit = editor;
+    ui->grammarPlainTextEdit->setFont(QFont("Consolas", 10));
 
     _pegParser.reset(new peg::parser());
 
@@ -15,7 +34,7 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->grammarPlainTextEdit, &QPlainTextEdit::textChanged, this, &MainWindow::onGrammarTextChanged);
     // 动态连接 parsePushButton 的 clicked 信号
     connect(ui->parsePushButton, &QPushButton::clicked, this, &MainWindow::onParseButtonClicked);
-
+    // 动态连接 codeEditorPlainTextEdit 的 textChanged 信号
     connect(ui->codeEditorPlainTextEdit, &QPlainTextEdit::textChanged, this, &MainWindow::onGrammarTextChanged);
 }
 
@@ -30,14 +49,13 @@ void MainWindow::onGrammarTextChanged()
     // qDebug() << peg_grammar;
     ui->grammarInfoPlainTextEdit->clear();
 
-    _pegParser->set_logger([&](size_t ln, size_t col, const std::string& msg)
-    {
+    _pegParser->set_logger([&](size_t ln, size_t col, const std::string &msg)
+                           {
         QString logMessage = QString("Line %1, Column %2: %3")
                              .arg(ln + 1)
                              .arg(col + 1)
                              .arg(QString::fromStdString(msg));
-        ui->grammarInfoPlainTextEdit->appendPlainText(logMessage);
-    });
+        ui->grammarInfoPlainTextEdit->appendPlainText(logMessage); });
 
     if (_pegParser->load_grammar(peg_grammar.toLocal8Bit().data()))
     {
@@ -84,18 +102,17 @@ void MainWindow::parseCode()
     ui->codeAstPlainTextEdit->clear();
     ui->codeResultPlainTextEdit->clear();
 
-    _pegParser->set_logger([&](size_t ln, size_t col, const std::string& msg)
-    {
+    _pegParser->set_logger([&](size_t ln, size_t col, const std::string &msg)
+                           {
         QString logMessage = QString("Line %1, Column %2: %3")
                              .arg(ln + 1)
                              .arg(col + 1)
                              .arg(QString::fromStdString(msg));
-        ui->codeResultPlainTextEdit->appendPlainText(logMessage);
-    });
+        ui->codeResultPlainTextEdit->appendPlainText(logMessage); });
 
     QString codeText = ui->codeEditorPlainTextEdit->toPlainText();
     QStringList codeLines = codeText.split('\n');
-    for (const QString& line : codeLines)
+    for (const QString &line : codeLines)
     {
         // qDebug() << line; // 输出每一行代码
         // 这里可以添加对每一行代码的处理逻
@@ -105,7 +122,7 @@ void MainWindow::parseCode()
         {
             QString astStr = QString::fromStdString(peg::ast_to_s(ast));
             ui->codeAstPlainTextEdit->appendPlainText(astStr);
-            //qDebug() << "Parsing Ok.";
+            // qDebug() << "Parsing Ok.";
         }
         else
         {
